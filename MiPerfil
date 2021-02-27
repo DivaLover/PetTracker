@@ -1,0 +1,813 @@
+#######MainActivity.java########
+package com.example.perfilpettracker;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    public void iraMiPerfil(View view){
+        Intent intent = new Intent(this, MiPerfilActivity.class);
+        startActivity(intent);
+    }
+}
+#######activity_main.xml########
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".MainActivity">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mi Perfil"
+        android:backgroundTint="#B81614"
+        android:layout_centerInParent="true"
+        android:onClick="iraMiPerfil"
+        />
+
+</RelativeLayout>
+#######MiPerfilActivity.java########
+package com.example.perfilpettracker;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MiPerfilActivity extends AppCompatActivity {
+
+    private static final int EDITAR_PERFIL_REQUEST_CODE = 1;
+    public static final String MENSAJE = "com.example.perfilpettracker.MESSAGE";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_miperfil);
+    }
+
+    public void editarPerfil(View view){
+        Intent intent = new Intent(this, EditarPerfilActivity.class);
+        startActivityForResult(intent, EDITAR_PERFIL_REQUEST_CODE);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check that it is the SecondActivity with an OK result
+        if (requestCode == EDITAR_PERFIL_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                if (data.getStringExtra(MENSAJE).equals("guardar"))
+                    Toast.makeText(getBaseContext(), "Su información se guardó", Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(getBaseContext(), "Edición cancelada", Toast.LENGTH_LONG).show();
+            }
+            else{
+                Toast.makeText(getBaseContext(), "Edición cancelada", Toast.LENGTH_LONG).show();
+            }
+        }
+        else{
+            Toast.makeText(getBaseContext(), "Edición cancelada", Toast.LENGTH_LONG).show();
+        }
+
+    }
+}
+
+#######activity_miperfil.xml########
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_alignParentTop="true"
+        android:id="@+id/frameLayout"
+        >
+        <ImageView
+            android:layout_width="400dp"
+            android:layout_height="250dp"
+            android:src="@drawable/fftactics"
+            android:layout_alignParentTop="true"
+            android:id="@+id/imagen_fondo"
+            android:layout_gravity="center"
+            />
+        <FrameLayout
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            >
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:scaleType="fitCenter"
+                android:id="@+id/foto_perfil"
+                android:src="@drawable/chocobo"
+                android:layout_gravity="center"
+                app:shapeAppearanceOverlay="@style/Circular"
+                app:strokeWidth="15dp"
+                app:strokeColor="#5E5C5C"
+                />
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/btn_foto_perfil"
+                android:src="@drawable/icono_camara"
+                android:scaleType="fitCenter"
+                android:background="@drawable/round_button"
+                android:backgroundTint="#B81614"
+                android:layout_gravity="bottom"
+                />
+        </FrameLayout>
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/btn_fondo"
+            android:src="@drawable/icono_camara"
+            android:scaleType="fitCenter"
+            android:background="@drawable/round_button"
+            android:backgroundTint="#B81614"
+            android:layout_gravity="bottom"
+            />
+    </FrameLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Juliana"
+        android:layout_centerInParent="true"
+        android:textSize="40dp"
+        android:textColor="#5E5C5C"
+        android:textStyle="bold"
+        android:id="@+id/nombre_carino"
+        android:paddingBottom="10dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tag_nombre_completo"
+        android:layout_below="@+id/nombre_carino"
+        android:text="Nombre completo:  "
+        android:textSize="20dp"
+        android:textColor="#5E5C5C"
+        android:textStyle="bold"
+        android:paddingBottom="10dp"
+        />
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/nombre_completo"
+        android:layout_below="@+id/nombre_carino"
+        android:text="Juliana García Mogollón"
+        android:textSize="18dp"
+        android:textColor="#5E5C5C"
+        android:layout_toRightOf="@+id/tag_nombre_completo"
+        android:paddingBottom="8dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tag_fecha_nacimiento"
+        android:layout_below="@+id/tag_nombre_completo"
+        android:text="Fecha de nacimiento:  "
+        android:textSize="20dp"
+        android:textColor="#5E5C5C"
+        android:textStyle="bold"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fecha_nacimiento"
+        android:text="20/03/1997"
+        android:textSize="20dp"
+        android:textColor="#5E5C5C"
+        android:layout_toRightOf="@+id/tag_fecha_nacimiento"
+        android:layout_below="@+id/nombre_completo"
+        android:paddingTop="10dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tag_correo"
+        android:layout_below="@+id/tag_fecha_nacimiento"
+        android:text="Correo:  "
+        android:textSize="20dp"
+        android:textColor="#5E5C5C"
+        android:textStyle="bold"
+        android:paddingTop="5dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/correo"
+        android:text="lianalionheart@gmail.com"
+        android:textSize="20dp"
+        android:textColor="#5E5C5C"
+        android:layout_toRightOf="@+id/tag_correo"
+        android:layout_below="@+id/fecha_nacimiento"
+        android:paddingTop="10dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tag_telefono"
+        android:layout_below="@+id/tag_correo"
+        android:text="Teléfono:  "
+        android:textSize="20dp"
+        android:textColor="#5E5C5C"
+        android:textStyle="bold"
+        android:paddingTop="10dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/telefono"
+        android:text="3123201726"
+        android:textSize="20dp"
+        android:textColor="#5E5C5C"
+        android:layout_toRightOf="@+id/tag_telefono"
+        android:layout_below="@+id/correo"
+        android:paddingTop="10dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tag_direccion"
+        android:layout_below="@+id/tag_telefono"
+        android:text="Dirección:  "
+        android:textSize="20dp"
+        android:textColor="#5E5C5C"
+        android:textStyle="bold"
+        android:paddingTop="10dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/direccion"
+        android:text="Cra 67 c # 25 a 73"
+        android:textSize="20dp"
+        android:textColor="#5E5C5C"
+        android:layout_toRightOf="@+id/tag_direccion"
+        android:layout_below="@+id/telefono"
+        android:paddingTop="10dp"
+        />
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icono_editar"
+        android:id="@+id/btn_editar_perfil"
+        android:onClick="editarPerfil"
+        android:layout_above="@id/btn_ver_mascotas"
+        android:background="@drawable/soft_edge_button"
+        android:backgroundTint="#B81614"
+        android:layout_centerHorizontal="true"
+        />
+    <Button
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="Ver Mis Mascotas"
+        android:backgroundTint="#B81614"
+        android:textSize="15dp"
+        android:id="@+id/btn_ver_mascotas"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        />
+    <Button
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="Mis Publicaciones"
+        android:backgroundTint="#B81614"
+        android:textSize="15dp"
+        android:id="@+id/btn_mis_publicaciones"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        />
+
+</RelativeLayout>
+#####EditarPerfilActivity.java#######
+package com.example.perfilpettracker;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class EditarPerfilActivity extends AppCompatActivity {
+    public static final String MENSAJE = "com.example.perfilpettracker.MESSAGE";
+    private Intent intent;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_editarperfil);
+        intent = getIntent();
+        Spinner spin_mes, spin_dia;
+        spin_mes = findViewById(R.id.spin_mes);
+        spin_mes.setSelection(0);
+        spin_mes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String mes = (String)spin_mes.getSelectedItem();
+                }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spin_dia = findViewById(R.id.spin_dias);
+        spin_dia.setSelection(0);
+        spin_dia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String dia = (String)spin_dia.getSelectedItem();
+                }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    public void cancelarPerfil(View view){
+        intent = new Intent();
+        String message = "cancelar";
+        intent.putExtra(MENSAJE,message);
+        setResult(RESULT_OK,intent);
+        finish();
+    }
+    public void guardarPerfil(View view) {
+        intent = new Intent();
+        String message = "guardar";
+        intent.putExtra(MENSAJE, message);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+}
+
+
+
+######activity_editarperfil.xml#######
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tag_primer_nombre"
+        android:text="Primer Nombre:  "
+        android:textSize="15dp"
+        android:textColor="#5E5C5C"
+        android:textStyle="bold"
+        android:paddingBottom="20dp"
+        android:paddingTop="15dp"
+        />
+    <EditText
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/primer_nombre"
+        android:textSize="15dp"
+        android:hint="Primer Nombre"
+        android:layout_toRightOf="@+id/tag_primer_nombre"
+        android:paddingTop="15dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tag_segundo_nombre"
+        android:text="Segundo Nombre:  "
+        android:textSize="15dp"
+        android:textColor="#5E5C5C"
+        android:textStyle="bold"
+        android:paddingBottom="20dp"
+        android:paddingTop="15dp"
+        android:layout_below="@+id/tag_primer_nombre"
+        />
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="25dp"
+        android:id="@+id/segundo_nombre"
+        android:textSize="15dp"
+        android:hint="Segundo Nombre"
+        android:layout_below="@+id/primer_nombre"
+        android:layout_toRightOf="@+id/tag_segundo_nombre"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tag_apellidos"
+        android:text="Apellidos:  "
+        android:textSize="15dp"
+        android:textColor="#5E5C5C"
+        android:textStyle="bold"
+        android:paddingBottom="20dp"
+        android:paddingTop="15dp"
+        android:layout_below="@+id/tag_segundo_nombre"
+        />
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="25dp"
+        android:id="@+id/apellidos"
+        android:textSize="15dp"
+        android:hint="Apellido1 Apellido2"
+        android:layout_below="@+id/segundo_nombre"
+        android:layout_toRightOf="@+id/tag_apellidos"
+        />
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tag_fecha_nacimiento"
+        android:text="Fecha de nacimiento:  "
+        android:textSize="15dp"
+        android:textColor="#5E5C5C"
+        android:textStyle="bold"
+        android:paddingBottom="20dp"
+        android:paddingTop="15dp"
+        android:layout_below="@+id/tag_apellidos"
+        />
+    <EditText
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:id="@+id/anio"
+        android:textSize="15dp"
+        android:hint="Año"
+        android:layout_below="@+id/apellidos"
+        android:layout_toRightOf="@+id/tag_fecha_nacimiento"
+        />
+    <Spinner
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/spin_mes"
+        android:entries="@array/meses"
+        android:paddingTop="20dp"
+        android:layout_below="@+id/apellidos"
+        android:layout_toRightOf="@+id/anio"
+
+        />
+    <Spinner
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/spin_dias"
+        android:entries="@array/dias"
+        android:paddingTop="20dp"
+        android:layout_below="@+id/apellidos"
+        android:layout_toRightOf="@+id/spin_mes"
+
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tag_correo"
+        android:text="Correo:  "
+        android:textSize="15dp"
+        android:textColor="#5E5C5C"
+        android:textStyle="bold"
+        android:paddingBottom="20dp"
+        android:paddingTop="15dp"
+        android:layout_below="@+id/tag_fecha_nacimiento"
+        />
+    <EditText
+        android:layout_width="305dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="42dp"
+        android:id="@+id/correo"
+        android:textSize="15dp"
+        android:hint="Ingrese un correo"
+        android:layout_below="@+id/anio"
+        android:layout_toRightOf="@+id/tag_correo"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tag_telefono"
+        android:text="Teléfono:  "
+        android:textSize="15dp"
+        android:textColor="#5E5C5C"
+        android:textStyle="bold"
+        android:paddingBottom="20dp"
+        android:paddingTop="15dp"
+        android:layout_below="@+id/tag_correo"
+        />
+    <EditText
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="25dp"
+        android:id="@+id/telefono"
+        android:textSize="15dp"
+        android:hint="Ingrese un teléfono"
+        android:layout_below="@+id/correo"
+        android:layout_toRightOf="@+id/tag_telefono"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tag_direccion"
+        android:text="Dirección:  "
+        android:textSize="15dp"
+        android:textColor="#5E5C5C"
+        android:textStyle="bold"
+        android:paddingBottom="20dp"
+        android:paddingTop="15dp"
+        android:layout_below="@+id/tag_telefono"
+        />
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="25dp"
+        android:id="@+id/direccion"
+        android:textSize="15dp"
+        android:hint="Ingrese su direccion"
+        android:layout_below="@+id/telefono"
+        android:layout_toRightOf="@+id/tag_direccion"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tag_contrasena"
+        android:text="Contraseña:  "
+        android:textSize="15dp"
+        android:textColor="#5E5C5C"
+        android:textStyle="bold"
+        android:paddingBottom="20dp"
+        android:paddingTop="15dp"
+        android:layout_below="@+id/tag_direccion"
+        />
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:id="@+id/contrasena"
+        android:textSize="15dp"
+        android:hint="Ingrese su contraseña"
+        android:layout_below="@+id/direccion"
+        android:layout_toRightOf="@+id/tag_contrasena"
+        />
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tag_confirmacion_contrasena"
+        android:text="Confirmación contraseña:  "
+        android:textSize="15dp"
+        android:textColor="#5E5C5C"
+        android:textStyle="bold"
+        android:paddingBottom="20dp"
+        android:paddingTop="15dp"
+        android:layout_below="@+id/tag_contrasena"
+        />
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="30dp"
+        android:id="@+id/confirmacion_contrasena"
+        android:textSize="15dp"
+        android:hint="Ingrese su contraseña"
+        android:layout_below="@+id/contrasena"
+        android:layout_toRightOf="@+id/tag_confirmacion_contrasena"
+        />
+
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icono_cancelar"
+        android:id="@+id/btn_cancelar"
+        android:onClick="cancelarPerfil"
+        android:background="@drawable/round_button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@color/terracota"
+        />
+
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/icono_guardar"
+        android:id="@+id/btn_guardar"
+        android:onClick="guardarPerfil"
+        android:background="@drawable/soft_edge_button"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@color/terracota"
+        />
+
+</RelativeLayout>
+
+######AndroidManifest.xml######
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.perfilpettracker">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Mi Perfil"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.PerfilPetTracker">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MiPerfilActivity">
+        <intent-filter>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+        <activity android:name=".EditarPerfilActivity"/>
+    </application>
+
+</manifest>
+
+######strings.xml#######
+<resources>
+    <string name="app_name">PerfilPetTracker</string>
+    <string-array name="meses">
+        <item>Enero</item>
+        <item>Febrero</item>
+        <item>Marzo</item>
+        <item>Abril</item>
+        <item>Mayo</item>
+        <item>Junio</item>
+        <item>Julio</item>
+        <item>Agosto</item>
+        <item>Septiembre</item>
+        <item>Octubre</item>
+        <item>Noviembre</item>
+        <item>Diciembre</item>
+    </string-array>
+    <string-array name="dias">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+    </string-array>
+</resources>
+
+#####round_button.xml#####
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="false">
+        <shape android:shape="oval">
+            <solid android:color="#FFFF"/>
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape android:shape="oval">
+            <solid android:color="#131313"/>
+        </shape>
+    </item>
+</selector>
+
+
+#####themes.xml#####
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.PerfilPetTracker" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/terracota</item>
+        <item name="colorPrimaryVariant">@color/terracota_2</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+</resources>
+#####colors.xml######
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="terracota">#B81614</color>
+    <color name="terracota_2">#B81609</color>
+</resources>
+
+######soft_edge_button#####
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle" android:padding="10dp">
+    <!-- you can use any color you want I used here gray color-->
+    <solid android:color="#ABABAB"/>
+    <corners android:radius="10dp"/>
+</shape>
+
+#####build.gradle (:app)###
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.example.perfilpettracker"
+        minSdkVersion 22
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    //implementation 'com.google.android.material:material:1.3.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
+
+#####custom_styles.xml#####
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Circular">
+        <item name="cornerSize">50%</item>
+        <item name="color">@android:color/transparent</item>
+        <item name="strokeColor">@android:color/transparent</item>
+    </style>
+
+</resources>
